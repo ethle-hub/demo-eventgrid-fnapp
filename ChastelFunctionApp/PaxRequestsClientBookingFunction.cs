@@ -40,7 +40,7 @@ namespace ChastelFunctionApp
             documents.AddAsync(clientBookingData).GetAwaiter();
 
             // 2. post to Azure Event Grid for next handler
-            EventGridHelper.SendEventGridMessageWithEventGridClientAsync(topicEndpoint, 
+            EventGridHelper.RaiseEventToGridAsync(topicEndpoint, 
                 sasKey,
                 nameof(PaxRequestsClientBookingFunction),
                 nameof(ChastelEventTopic.UnassignedClientBooking),
