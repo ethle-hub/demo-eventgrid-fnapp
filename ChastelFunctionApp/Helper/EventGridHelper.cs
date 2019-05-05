@@ -31,18 +31,12 @@ namespace ChastelFunctionApp.Helper
         //        throw new Exception("Unable to send message to event grid");
         //}
 
-        public static async Task SendEventGridMessageWithEventGridClientAsync(string topicEndpoint, string topicKey,
+        public static async Task RaiseEventToGridAsync(string topicEndpoint, string topicKey,
             string subject, string topic, string eventType,  object data)
         {
-
             try
             {
                 // https://docs.microsoft.com/en-us/dotnet/api/overview/azure/eventgrid?view=azure-dotnet
-                string topicHostname = new Uri(topicEndpoint).Host;
-
-                var credentials = new TopicCredentials(topicKey);
-                var client = new EventGridClient(credentials);
-
                 var eventGridEvent = new EventGridEvent
                 {
                     Subject = subject,
@@ -53,7 +47,12 @@ namespace ChastelFunctionApp.Helper
                     Data = data,
                     DataVersion = "1.0.0",
                 };
+
                 var events = new List<EventGridEvent> {eventGridEvent};
+                var topicHostname = new Uri(topicEndpoint).Host;
+                var credentials = new TopicCredentials(topicKey);
+                var client = new EventGridClient(credentials);
+
                 await client.PublishEventsWithHttpMessagesAsync(topicHostname, events);
             }
             catch (Exception e)
