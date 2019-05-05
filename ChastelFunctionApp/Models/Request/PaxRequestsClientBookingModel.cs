@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChastelFunctionApp.Models
+﻿
+namespace ChastelFunctionApp.Models.Request
 {
     public class PaxRequestsClientBookingModel
     {
